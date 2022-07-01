@@ -1,24 +1,44 @@
 const themeRouter = require('express').Router()
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
-const Home = require('../views/Home')
-const Questions = require('../../../db/models/theme')
+const Home = require('../../../views/Home')
+const {
+  User
+} = require('../../../db/models');
 
-///theme/{question.id}
+const {
+  Themes
+} = require('../../../db/models')
 
-themeRouter.get('/main', (req, res) => {
+const {Question} = require('../../../db/models')
+// const {
+// console.log(Object.keys(require('../../../db/models')))
+// } = require('../../../db/models')
 
-  const getAllThemes = Questions.findAll({raw:true})
+///theme/{question.id}s
 
-  const themeList = React.createElement(Card, {getAllThemes})
+themeRouter.get('/home', async (req, res) => {
+
+  const user = await User.findOne({where: {id: req.session.userId}});
+
+  const getAllThemes = await Themes.findAll({
+    raw: true
+  })
+
+  const themeList = React.createElement(Home, {
+    getAllThemes,
+    title:'Title',
+    user
+  })
   const html = ReactDOMServer.renderToStaticMarkup(themeList)
   res.write('<!doctype html>')
   res.end(html)
 })
 
-
-
-
+themeRouter.get('/theme/:id', async (req,res) => {
+  const questionsList = await Question.findAll({where: {id:req.params.id}})
+  
+})
 
 
 

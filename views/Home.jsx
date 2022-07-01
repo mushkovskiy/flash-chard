@@ -3,11 +3,11 @@ const Layout = require('./Layout');
 const Card = require('./Card');
 // 
 
-module.exports = function Home({ title, array }) {
+module.exports = function Home({ getAllThemes, title, user }) {
   return (
-    <Layout title={title}>
+    <Layout title={title} user = {user}>
       <div>
-        {array.map((theme) => <Card theme={theme} />)}
+        {getAllThemes.map((theme) => <Card theme={theme} />)}
       </div>
     </Layout>
   );

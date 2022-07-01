@@ -8,8 +8,12 @@ const Reg = require('../../views/Reg');
 const Log = require('../../views/Log');
 
 
-const { User } = require('../../db/models');
-const { restart } = require('nodemon');
+const {
+  User
+} = require('../../db/models');
+const {
+  restart
+} = require('nodemon');
 
 authRouter.get('/', (req, res) => {
   const element = React.createElement(Main);
@@ -29,19 +33,23 @@ authRouter.get('/reg', (req, res) => {
 
 authRouter.post('/reg', async (req, res) => {
   const {
-    name,  password
+    name,
+    password
   } = req.body;
-
-  // console.log(name, password)
-  // const user = await User.findOne({ where: { name } });
-  // if (user) {
-  //   res.redirect('/userdubble');
-  //   return;
-  // }
-  // const newUser = await User.create({
-  //   name,
-  //   password: await bcrypt.hash(password, 10),
-  // });
+  console.log(name, password)
+  const user = await User.findOne({
+    where: {
+      username: name
+    }
+  });
+  if (user) {
+    res.redirect('/userdubble');
+    return;
+  }
+  const newUser = await User.create({
+    username: name,
+    password: await bcrypt.hash(password, 10),
+  });
   res.redirect('/log');
 });
 
@@ -56,17 +64,26 @@ authRouter.get('/log', (req, res) => {
 
 authRouter.post('/log/user', async (req, res) => {
   console.log(req.body);
-  const { login, password } = req.body;
-  // const checkedUser = await User.findOne({ where: { login }, raw: true });
-  // const isSame = await bcrypt.compare(password, checkedUser.password);
-  // if (checkedUser.login === login && isSame) {
-  //   req.session.userId = checkedUser.id; // раздаем куки
-  //   // console.log(req.session);
-  //   return res.redirect('/video');
-  // }
+  const {
+    name,
+    password
+  } = req.body;
+  const checkedUser = await User.findOne({
+    where: {
+      username: name
+    },
+    raw: true
+  });
+  const isSame = await bcrypt.compare(password, checkedUser.password);
+  if (checkedUser.username === name && isSame) {
+
+    req.session.userId = checkedUser.id; // раздаем куки
+    // console.log(req.session);
+    return res.redirect('/home');
+  }
   res.redirect('/')
-  
-//    res.redirect('/invalidpass'); // Нужно перенести в маршрут входа в другом файле
+
+  //    res.redirect('/invalidpass'); // Нужно перенести в маршрут входа в другом файле
 });
 
 module.exports = authRouter;
