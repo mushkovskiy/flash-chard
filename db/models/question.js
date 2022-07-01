@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({Theme, Game}) {
-      Question.Theme = Question.belongsTo(Theme, {foreignKey:'theme_id'})
+      // Question.Theme = Question.belongsTo(Theme, {foreignKey:'theme_id'})
       Question.Game = Question.belongsToMany(Game, {
         foreignKey: 'question_id',
         through: 'GameTheme'
