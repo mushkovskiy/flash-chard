@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.TEXT
     },
+    password: {
+      type: DataTypes.TEXT
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE
