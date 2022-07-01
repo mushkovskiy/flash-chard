@@ -6,6 +6,8 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const cookieParser = require('cookie-parser');
 
+
+const authRouter = require('./routes/views/auth.routes')
 const sessionConfig = {
   store: new FileStore(),
   name: 'user_sid',
@@ -29,3 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
+app.use(authRouter)
+app.listen(PORT, async () => console.log('Веб-сервер слушает порт', PORT));
