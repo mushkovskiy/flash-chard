@@ -23,7 +23,10 @@ function Layout({ children, user }) {
               <a className="nav-link active" aria-current="page" href="#">Мои результаты</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Выйти</a>
+              <a className="nav-link active" aria-current="page" href="#"> Привет! {user.username}</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/logout">Выйти</a>
             </li>
           </ul>
         ) : (

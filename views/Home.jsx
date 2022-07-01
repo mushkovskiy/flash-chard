@@ -6,9 +6,11 @@ const Card = require('./Card');
 module.exports = function Home({ getAllThemes, title, user }) {
   return (
     <Layout title={title} user = {user}>
-      <div>
+      <div className='theme-container'>
         {getAllThemes.map((theme) => <Card theme={theme} />)}
       </div>
+      <script defer src="/js/application.js"></script>
+   
     </Layout>
   );
 };
